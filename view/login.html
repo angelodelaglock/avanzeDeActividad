@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>matriculas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="box">
+      <span class="borderLine"></span>
+      <form action="">
+        <h2>Login</h2>
+        <div class="inputBox">
+          <input type="text" required="required" id="nombreUsuario">
+          <span>Usuario</span>
+          <i></i>
+        </div>
+        <div class="inputBox">
+          <input type="password" required="required" id="password">
+          <span>Contraseña</span>
+          <i></i>
+        </div>
+        <input type="submit" value="login" id="iniciarSesion">
+      </form>
+    </div>
+  </header>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      function login(){
+        const datos = {
+          "login"           : "iniciarSesion",
+          "nombreUsuario"   : $("#nombreUsuario").val(),
+          "password"         : $("#password").val()
+        };
+
+        $ajax({
+          url:'../controllers/usuario.php',
+          type: 'GET',
+          data: datos,
+          dataType: 'JSON',
+          success: function (result){
+            if(result.login){
+              alert(`Bienveniso: ${result.nombreUsuario}`);
+              window.location.href = `../view/index.html`;
+            }else{
+              alert(result.mensaje);
+            }
+          }
+        });
+      }
+
+      $("#iniciarSesion").click(login);
+
+      $("#password").keypress(function (evt) {
+        if (evt.keyCode == 13){
+          login();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
